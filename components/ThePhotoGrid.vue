@@ -1,21 +1,22 @@
 <template>
   <div>
     <p class>{{ gallery }}</p>
-    <div class="grid" id="gallery">
+    <div class="grid" id="gallery" ref="gallery">
       <div class="grid-item" v-for="(item, index) in items" :key="index">
         <div>
           <img
             v-if="index > 8"
             data-aos="fade-up"
             :src="require('@/assets/img/' + gallery + '/' + item)"
+            class="image"
           />
           <img
             v-else
             data-aos="fade-up"
             data-aos-offset="50"
             :src="require('@/assets/img/' + gallery + '/' + item)"
+            class="image"
           />
-          <!-- <img data-aos="fade-up" :src="require('@/assets/tgnbbtrip/' + item)" /> -->
         </div>
       </div>
     </div>
@@ -35,6 +36,7 @@ export default {
   },
   data: () => ({
     msnry: null,
+    imgLoad: null,
   }),
   computed: {
     items() {
@@ -52,31 +54,46 @@ export default {
   },
   mounted() {
     if (process.browser) {
-      const Masonry = require('masonry-layout')
       const AOS = require('aos')
       const imagesLoaded = require('imagesloaded')
+      const Masonry = require('masonry-layout')
 
-      const container = document.querySelector('#gallery')
-      imagesLoaded(container, function () {
-        container.style.display = 'block'
-        this.msnry = new Masonry(container, {
-          itemSelector: '.grid-item',
-        })
+      const galleryRef = this.$refs.gallery
+
+      this.msnry = new Masonry(galleryRef, {
+        itemSelector: '.grid-item',
+      })
+
+      this.imgLoad = imagesLoaded(galleryRef, () => {
+        this.refreshMasonry()
+        // galleryRef.style.display = 'block'
         AOS.refresh()
+      })
+
+      this.imgLoad.on('progress', (instance, image) => {
+        this.refreshMasonry()
       })
     }
   },
-  // updated() {
-  //   this.msnry.reloadItems();
-  //   this.msnry.layout();
-  // }
+  methods: {
+    refreshMasonry() {
+      if (this.msnry) {
+        this.msnry.layout()
+      }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .grid#gallery {
-  display: none;
+  /* display: none; */
 }
+
+.image {
+  opacity: 0;
+}
+
 p {
   font-size: 16px;
   letter-spacing: 0.1em;
@@ -86,17 +103,21 @@ p {
   font-weight: 500;
   position: relative;
 }
+
 .grid-item {
   max-width: 33%;
   width: 33%;
   padding: 0 10px 20px;
   box-sizing: border-box;
+
   div:hover {
     opacity: 0.7;
   }
+
   div {
     cursor: pointer;
   }
+
   img {
     max-width: 100%;
     height: auto;
@@ -104,6 +125,7 @@ p {
     display: block;
   }
 }
+
 @media (max-width: 768px) {
   p {
     font-size: 12px;

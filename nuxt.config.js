@@ -37,7 +37,10 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    // https://www.npmjs.com/package/nuxt-lazy-load/v/latest
+    // 'nuxt-lazy-load',
+  ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
