@@ -1,68 +1,48 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">Tangina-Bobo-Gang-Website-Nuxt</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="home">
+    <div class="hero">
+      <div class="hero-text-wrapper">
+        <p class="text-xs uppercase">Diary</p>
+        <h1 class="text-4xl font-bold uppercase">Tanginabobo Gang</h1>
+      </div>
+      <div class="hero-img-wrapper">
+        <img src="@/assets/img/hero.jpeg" alt />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  components: {},
+}
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+<style lang="scss" scoped>
+.hero {
+  width: 100%;
+  height: 95vh;
+  margin: auto;
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
-  text-align: center;
+  padding: 0 50px;
+  box-sizing: border-box;
+  letter-spacing: 0.12em;
 }
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.hero-text-wrapper {
+  width: 50%;
+  z-index: 1;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.hero-img-wrapper {
+  width: 50%;
 }
-
-.links {
-  padding-top: 15px;
+@media only screen and (max-width: 690px) {
+  .hero-text-wrapper {
+    width: 100%;
+  }
+  .hero-img-wrapper {
+    width: 100%;
+  }
 }
 </style>
