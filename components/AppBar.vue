@@ -17,6 +17,7 @@ export default {}
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 4;
 
   a {
     font-weight: bold;

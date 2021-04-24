@@ -40,8 +40,16 @@ export default {
   modules: [
     // https://www.npmjs.com/package/nuxt-lazy-load/v/latest
     // 'nuxt-lazy-load',
+
+    // https://github.com/ivodolenc/nuxt-gsap-module
+    'nuxt-gsap-module',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  // https://github.com/ivodolenc/nuxt-gsap-module
+  gsap: {
+    /* module options */
+  },
 }
