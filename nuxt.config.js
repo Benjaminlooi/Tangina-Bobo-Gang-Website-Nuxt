@@ -23,6 +23,12 @@ export default {
   plugins: [
     // https://yasminzy.com/nuxt/aos/#steps
     '@/plugins/aos.client',
+
+    // https://github.com/magr0s/vue-scrollmagic
+    {
+      src: '~plugins/vue-scrollmagic.js',
+      ssr: false,
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

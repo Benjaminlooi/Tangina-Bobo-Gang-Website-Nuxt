@@ -1,11 +1,15 @@
 <template>
   <div>
     <p class>{{ gallery }}</p>
+    <button @click="loadImage()">Load image</button>
+    <button @click="initiateMansory()">Initiate mansory</button>
+    <button @click="refreshMasonry()">Refresh mansory</button>
     <div class="grid" id="gallery" ref="gallery">
       <div class="grid-item" v-for="(item, index) in items" :key="index">
         <img
-          v-if="index > 8"
+          v-if="index > 9"
           data-aos="fade-up"
+          data-aos-anchor-placement="top-bottom"
           :src="require('@/assets/img/' + gallery + '/' + item)"
           class="image"
         />
@@ -18,13 +22,12 @@
         />
       </div>
     </div>
+
+    <div ref="loader">Loading...</div>
   </div>
 </template>
 
 <script>
-// import Masonry from 'masonry-layout'
-// import imagesLoaded from 'imagesloaded'
-// import AOS from 'aos'
 import { tgnbbtripMin, rayymondmpp, gangphotoshoot } from '@/misc/galleryLinks'
 
 export default {
@@ -35,6 +38,7 @@ export default {
   data: () => ({
     msnry: null,
     imgLoad: null,
+    imageLoadCount: 6,
   }),
   computed: {
     items() {
@@ -44,7 +48,7 @@ export default {
         case 'rayymondmpp':
           return [...rayymondmpp]
         case 'gangphotoshoot':
-          return [...gangphotoshoot]
+          return gangphotoshoot.slice(0, this.imageLoadCount)
         default:
           return null
       }
@@ -52,32 +56,58 @@ export default {
   },
   mounted() {
     if (process.browser) {
-      const AOS = require('aos')
-      const imagesLoaded = require('imagesloaded')
-      const Masonry = require('masonry-layout')
+      // const AOS = require('aos')
+      // const imagesLoaded = require('imagesloaded')
 
-      const galleryRef = this.$refs.gallery
+      this.initiateMansory()
 
-      this.msnry = new Masonry(galleryRef, {
-        itemSelector: '.grid-item',
-      })
+      // this.imgLoad = imagesLoaded(galleryRef, () => {
+      //   console.log('done')
+      //   this.refreshMasonry()
+      //   // AOS.refresh()
+      // })
 
-      this.imgLoad = imagesLoaded(galleryRef, () => {
-        this.refreshMasonry()
-        // galleryRef.style.display = 'block'
-        AOS.refresh()
-      })
+      // this.imgLoad.on('progress', (instance, image) => {
+      //   console.log('loaded')
+      //   this.refreshMasonry()
+      // })
 
-      this.imgLoad.on('progress', (instance, image) => {
-        this.refreshMasonry()
-      })
+      const loaderRef = this.$refs.loader
+
+      // build scene
+      const scene = this.$scrollmagic
+        .scene({
+          triggerElement: loaderRef,
+          triggerHook: 'onEnter',
+          offset: -100,
+        })
+        .on('enter', (e) => {
+          this.loadImage()
+        })
+
+      this.$scrollmagic.addScene(scene)
     }
   },
   methods: {
     refreshMasonry() {
       if (this.msnry) {
+        console.log('resetting Mansory...')
         this.msnry.layout()
       }
+    },
+    loadImage() {
+      this.imageLoadCount += 3
+      setTimeout(() => {
+        this.initiateMansory()
+      }, 0)
+    },
+    initiateMansory() {
+      const Masonry = require('masonry-layout')
+      const galleryRef = this.$refs.gallery
+
+      this.msnry = new Masonry(galleryRef, {
+        itemSelector: '.grid-item',
+      })
     },
   },
 }
