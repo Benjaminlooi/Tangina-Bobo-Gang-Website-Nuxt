@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="hero">
-        <div class="hero-text-wrapper overflow-hidden">
+        <div class="hero-text-wrapper relative">
           <p class="text-xs uppercase" ref="subtitle">Diary</p>
           <h1 class="text-4xl font-bold uppercase" ref="title">
             Tanginabobo Gang
@@ -39,8 +39,8 @@ export default {
         ease: 'power1.out',
       })
       .from(titleRef, {
-        x: window.innerWidth / 2,
-        xPercent: -50,
+        right: 0,
+        xPercent: 50,
         duration: 1.5,
         ease: 'power1.inOut',
       })

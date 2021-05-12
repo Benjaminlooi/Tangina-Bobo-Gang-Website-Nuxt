@@ -17,6 +17,6 @@ module.exports = {
   plugins: [],
   // add your custom rules here
   rules: {
-    'no-unused-vars': config.dev ? 'warn' : 'error',
+    'no-unused-vars': 'warn',
   },
 }
