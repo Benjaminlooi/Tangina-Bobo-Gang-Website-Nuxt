@@ -10,6 +10,7 @@
         <img
           v-if="index > 9"
           data-aos="fade-up"
+          data-aos-delay="500"
           data-aos-anchor-placement="center-bottom"
           :src="require('@/assets/img/' + gallery + '/' + item)"
           class="image"
@@ -105,6 +106,7 @@ export default {
       setTimeout(() => {
         this.imgLoad.off('always')
         this.checkImagesLoaded()
+        AOS.refresh()
       }, 0)
     },
     initiateMansory() {
