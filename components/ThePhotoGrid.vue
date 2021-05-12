@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div ref="loader">Loading...</div>
+    <div v-if="imageLoadCount >= totalItems" ref="loader">Loading...</div>
   </div>
 </template>
 
@@ -46,11 +46,23 @@ export default {
     items() {
       switch (this.gallery) {
         case 'tgnbbtrip':
-          return [...tgnbbtripMin]
+          return tgnbbtripMin.slice(0, this.imageLoadCount)
         case 'rayymondmpp':
-          return [...rayymondmpp]
+          return rayymondmpp.slice(0, this.imageLoadCount)
         case 'gangphotoshoot':
           return gangphotoshoot.slice(0, this.imageLoadCount)
+        default:
+          return null
+      }
+    },
+    totalItems() {
+      switch (this.gallery) {
+        case 'tgnbbtrip':
+          return tgnbbtripMin.length
+        case 'rayymondmpp':
+          return rayymondmpp.length
+        case 'gangphotoshoot':
+          return gangphotoshoot.length
         default:
           return null
       }
@@ -89,7 +101,7 @@ export default {
     },
     loadImage() {
       console.log('Loading images...')
-      this.imageLoadCount += 3
+      this.imageLoadCount += 6
       setTimeout(() => {
         this.imgLoad.off('always')
         this.checkImagesLoaded()
