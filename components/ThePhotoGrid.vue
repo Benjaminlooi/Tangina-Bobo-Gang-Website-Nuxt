@@ -4,8 +4,8 @@
     <!-- <button @click="loadImage()">Load image</button>
     <button @click="initiateMansory()">Initiate mansory</button>
     <button @click="refreshMasonry()">Refresh mansory</button> -->
-    <div class="grid" id="gallery" ref="gallery">
-      <div class="grid-item" v-for="(item, index) in items" :key="index">
+    <div id="gallery" ref="gallery" class="grid">
+      <div v-for="(item, index) in items" :key="index" class="grid-item">
         <img
           v-if="index > 9"
           data-aos="fade-up"
@@ -69,6 +69,9 @@ export default {
         .on('enter', (e) => {
           this.loadImage()
         })
+        .on('update', (e) => {
+          console.log(e)
+        })
 
       this.$scrollmagic.addScene(scene)
     }
@@ -77,19 +80,19 @@ export default {
     refreshMasonry() {
       if (this.msnry) {
         console.log('resetting Mansory...')
+        this.msnry.reloadItems()
         this.msnry.layout()
+        this.checkImagesLoaded()
       }
     },
     loadImage() {
       this.imageLoadCount += 3
       setTimeout(() => {
-        this.initiateMansory()
+        this.refreshMasonry()
       }, 0)
     },
     initiateMansory() {
       const Masonry = require('masonry-layout')
-      const AOS = require('aos')
-      const imagesLoaded = require('imagesloaded')
 
       const galleryRef = this.$refs.gallery
 
@@ -97,13 +100,21 @@ export default {
         itemSelector: '.grid-item',
       })
 
+      this.checkImagesLoaded()
+    },
+    checkImagesLoaded() {
+      const AOS = require('aos')
+      const imagesLoaded = require('imagesloaded')
+
+      const galleryRef = this.$refs.gallery
+
       this.imgLoad = imagesLoaded(galleryRef, () => {
         console.log('done')
         this.refreshMasonry()
         AOS.refresh()
       })
 
-      this.imgLoad.on('progress', (instance, image) => {
+      this.imgLoad.on('update', (instance, image) => {
         console.log('loaded')
         this.refreshMasonry()
         AOS.refresh()

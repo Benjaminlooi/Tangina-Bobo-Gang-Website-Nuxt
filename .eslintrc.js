@@ -1,5 +1,3 @@
-const config = require('./nuxt.config.js')
-
 module.exports = {
   root: true,
   env: {
@@ -17,6 +15,6 @@ module.exports = {
   plugins: [],
   // add your custom rules here
   rules: {
-    'no-unused-vars': 'warn',
+    // 'no-unused-vars': 'warn',
   },
 }
