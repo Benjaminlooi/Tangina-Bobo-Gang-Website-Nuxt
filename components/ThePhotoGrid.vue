@@ -1,6 +1,7 @@
 <template>
   <div>
     <p class>{{ gallery }}</p>
+    <button @click="console.log('test')">Test</button>
     <!-- <button @click="loadImage()">Load image</button>
     <button @click="initiateMansory()">Initiate mansory</button>
     <button @click="refreshMasonry()">Refresh mansory</button> -->
@@ -23,12 +24,13 @@
       </div>
     </div>
 
-    <div ref="loader"></div>
+    <div ref="loader">Loading...</div>
   </div>
 </template>
 
 <script>
 import { tgnbbtripMin, rayymondmpp, gangphotoshoot } from '@/misc/galleryLinks'
+let Masonry, AOS, imagesLoaded
 
 export default {
   name: 'ThePhotoGrid',
@@ -56,6 +58,10 @@ export default {
   },
   mounted() {
     if (process.browser) {
+      Masonry = require('masonry-layout')
+      AOS = require('aos')
+      imagesLoaded = require('imagesloaded')
+
       this.initiateMansory()
 
       const loaderRef = this.$refs.loader
@@ -64,13 +70,10 @@ export default {
         .scene({
           triggerElement: loaderRef,
           triggerHook: 'onEnter',
-          offset: -50,
+          offset: -30,
         })
         .on('enter', (e) => {
           this.loadImage()
-        })
-        .on('update', (e) => {
-          console.log(e)
         })
 
       this.$scrollmagic.addScene(scene)
@@ -82,18 +85,17 @@ export default {
         console.log('resetting Mansory...')
         this.msnry.reloadItems()
         this.msnry.layout()
-        this.checkImagesLoaded()
       }
     },
     loadImage() {
+      console.log('Loading images...')
       this.imageLoadCount += 3
       setTimeout(() => {
-        this.refreshMasonry()
+        this.imgLoad.off('always')
+        this.checkImagesLoaded()
       }, 0)
     },
     initiateMansory() {
-      const Masonry = require('masonry-layout')
-
       const galleryRef = this.$refs.gallery
 
       this.msnry = new Masonry(galleryRef, {
@@ -103,22 +105,21 @@ export default {
       this.checkImagesLoaded()
     },
     checkImagesLoaded() {
-      const AOS = require('aos')
-      const imagesLoaded = require('imagesloaded')
-
       const galleryRef = this.$refs.gallery
 
-      this.imgLoad = imagesLoaded(galleryRef, () => {
+      this.imgLoad = imagesLoaded(galleryRef)
+
+      this.imgLoad.on('always', () => {
         console.log('done')
         this.refreshMasonry()
         AOS.refresh()
       })
 
-      this.imgLoad.on('update', (instance, image) => {
-        console.log('loaded')
-        this.refreshMasonry()
-        AOS.refresh()
-      })
+      // this.imgLoad.on('update', (instance, image) => {
+      //   console.log('loaded')
+      //   this.refreshMasonry()
+      //   AOS.refresh()
+      // })
     },
   },
 }
@@ -128,6 +129,14 @@ export default {
 /* .grid#gallery {
   display: none;
 } */
+
+#loader {
+  height: 1px;
+
+  & .active {
+    height: 30px;
+  }
+}
 
 .image {
   opacity: 0;
