@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div v-if="imageLoadCount >= totalItems" ref="loader">Loading...</div>
+    <div v-if="imageLoadCount < totalItems" ref="loader">Loading...</div>
   </div>
 </template>
 
