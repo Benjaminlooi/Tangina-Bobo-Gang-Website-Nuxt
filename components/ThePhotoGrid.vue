@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class>{{ gallery }}</p>
-    <button @click="console.log('test')">Test</button>
+    <!-- <button @click="console.log('test')">Test</button> -->
     <!-- <button @click="loadImage()">Load image</button>
     <button @click="initiateMansory()">Initiate mansory</button>
     <button @click="refreshMasonry()">Refresh mansory</button> -->
