@@ -3,21 +3,19 @@
     <p class>{{ gallery }}</p>
     <div class="grid" id="gallery" ref="gallery">
       <div class="grid-item" v-for="(item, index) in items" :key="index">
-        <div>
-          <img
-            v-if="index > 8"
-            data-aos="fade-up"
-            :src="require('@/assets/img/' + gallery + '/' + item)"
-            class="image"
-          />
-          <img
-            v-else
-            data-aos="fade-up"
-            data-aos-offset="50"
-            :src="require('@/assets/img/' + gallery + '/' + item)"
-            class="image"
-          />
-        </div>
+        <img
+          v-if="index > 8"
+          data-aos="fade-up"
+          :src="require('@/assets/img/' + gallery + '/' + item)"
+          class="image"
+        />
+        <img
+          v-else
+          data-aos="fade-up"
+          data-aos-offset="50"
+          :src="require('@/assets/img/' + gallery + '/' + item)"
+          class="image"
+        />
       </div>
     </div>
   </div>
@@ -86,9 +84,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.grid#gallery {
-  /* display: none; */
-}
+/* .grid#gallery {
+  display: none;
+} */
 
 .image {
   opacity: 0;
