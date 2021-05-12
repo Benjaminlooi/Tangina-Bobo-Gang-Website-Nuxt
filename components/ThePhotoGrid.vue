@@ -9,7 +9,7 @@
         <img
           v-if="index > 9"
           data-aos="fade-up"
-          data-aos-anchor-placement="top-bottom"
+          data-aos-anchor-placement="center-bottom"
           :src="require('@/assets/img/' + gallery + '/' + item)"
           class="image"
         />
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div ref="loader">Loading...</div>
+    <div ref="loader"></div>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
   data: () => ({
     msnry: null,
     imgLoad: null,
-    imageLoadCount: 6,
+    imageLoadCount: 9,
   }),
   computed: {
     items() {
@@ -56,21 +56,7 @@ export default {
   },
   mounted() {
     if (process.browser) {
-      // const AOS = require('aos')
-      // const imagesLoaded = require('imagesloaded')
-
       this.initiateMansory()
-
-      // this.imgLoad = imagesLoaded(galleryRef, () => {
-      //   console.log('done')
-      //   this.refreshMasonry()
-      //   // AOS.refresh()
-      // })
-
-      // this.imgLoad.on('progress', (instance, image) => {
-      //   console.log('loaded')
-      //   this.refreshMasonry()
-      // })
 
       const loaderRef = this.$refs.loader
 
@@ -79,7 +65,7 @@ export default {
         .scene({
           triggerElement: loaderRef,
           triggerHook: 'onEnter',
-          offset: -100,
+          offset: -50,
         })
         .on('enter', (e) => {
           this.loadImage()
@@ -103,10 +89,25 @@ export default {
     },
     initiateMansory() {
       const Masonry = require('masonry-layout')
+      const AOS = require('aos')
+      const imagesLoaded = require('imagesloaded')
+
       const galleryRef = this.$refs.gallery
 
       this.msnry = new Masonry(galleryRef, {
         itemSelector: '.grid-item',
+      })
+
+      this.imgLoad = imagesLoaded(galleryRef, () => {
+        console.log('done')
+        this.refreshMasonry()
+        AOS.refresh()
+      })
+
+      this.imgLoad.on('progress', (instance, image) => {
+        console.log('loaded')
+        this.refreshMasonry()
+        AOS.refresh()
       })
     },
   },
@@ -130,6 +131,10 @@ p {
   margin: 0 auto 100px;
   font-weight: 500;
   position: relative;
+}
+
+.grid {
+  min-height: 100vh;
 }
 
 .grid-item {
