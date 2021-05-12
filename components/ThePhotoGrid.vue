@@ -1,9 +1,9 @@
 <template>
   <div>
     <p class>{{ gallery }}</p>
-    <button @click="loadImage()">Load image</button>
+    <!-- <button @click="loadImage()">Load image</button>
     <button @click="initiateMansory()">Initiate mansory</button>
-    <button @click="refreshMasonry()">Refresh mansory</button>
+    <button @click="refreshMasonry()">Refresh mansory</button> -->
     <div class="grid" id="gallery" ref="gallery">
       <div class="grid-item" v-for="(item, index) in items" :key="index">
         <img
@@ -60,7 +60,6 @@ export default {
 
       const loaderRef = this.$refs.loader
 
-      // build scene
       const scene = this.$scrollmagic
         .scene({
           triggerElement: loaderRef,
