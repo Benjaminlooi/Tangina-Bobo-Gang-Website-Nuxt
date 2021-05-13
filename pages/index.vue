@@ -1,62 +1,46 @@
 <template>
   <div>
-    <div class="container">
-      <div class="hero">
-        <div class="hero-text-wrapper relative">
-          <p class="text-xs uppercase" ref="subtitle">Diary</p>
-          <h1 class="text-4xl font-bold uppercase" ref="title">
-            Tanginabobo Gang
-          </h1>
-        </div>
-        <div class="hero-img-wrapper">
-          <img src="@/assets/img/hero.jpeg" alt ref="image" />
-        </div>
+    <div class="hero">
+      <div class="hero-text-container">
+        <h1 class="hero-text uppercase">Tangina Bobo Gang</h1>
       </div>
+
+      <HeroSlider />
     </div>
-    <div class="loading-screen" ref="loadingScreen"></div>
   </div>
 </template>
 
 <script>
+import HeroSlider from '~/components/HeroSlider.vue'
 export default {
+  components: { HeroSlider },
   data: () => ({
     tl: null,
   }),
-  mounted() {
-    const loadingScreenRef = this.$refs.loadingScreen
-    const titleRef = this.$refs.title
-    const subtitleRef = this.$refs.subtitle
-    const imageRef = this.$refs.image
-
-    this.tl = this.$gsap.timeline()
-
-    this.tl
-      .from(titleRef, {
-        y: 130,
-        opacity: 0,
-        rotation: -15,
-        duration: 1.5,
-        ease: 'power1.out',
-      })
-      .from(titleRef, {
-        right: 0,
-        xPercent: 50,
-        duration: 1.5,
-        ease: 'power1.inOut',
-      })
-      .from(subtitleRef, { opacity: 0 }, '-=0.8')
-      .to(loadingScreenRef, { height: 0, duration: 1.4 }, '-=1')
-      .set(loadingScreenRef, { display: 'none' })
-      .from(
-        imageRef,
-        { opacity: 0, duration: 1, ease: 'power1.inOut' },
-        '-=0.8'
-      )
-  },
+  mounted() {},
 }
 </script>
 
 <style lang="scss" scoped>
+.hero-text-container {
+  left: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  height: 80px;
+  overflow: hidden;
+  text-align: center;
+  transform: translateY(-50%);
+  will-change: transform;
+  width: 100%;
+  z-index: 10;
+}
+
+.hero-text {
+  color: #fff;
+  font-size: 50px;
+}
+/*
 .loading-screen {
   width: 100%;
   height: 100%;
@@ -110,5 +94,5 @@ export default {
     position: relative;
     width: 100%;
   }
-}
+} */
 </style>

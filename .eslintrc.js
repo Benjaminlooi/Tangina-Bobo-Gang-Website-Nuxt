@@ -15,6 +15,6 @@ module.exports = {
   plugins: [],
   // add your custom rules here
   rules: {
-    // 'no-unused-vars': 'warn',
+    'no-unused-vars': 'warn',
   },
 }
