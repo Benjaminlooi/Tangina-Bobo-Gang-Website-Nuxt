@@ -2,10 +2,10 @@
   <div>
     <div class="hero">
       <div class="hero-text-container">
-        <h1 class="hero-text uppercase">Tangina Bobo Gang</h1>
+        <h1 ref="heroText" class="hero-text uppercase">Tangina Bobo Gang</h1>
       </div>
 
-      <HeroSlider />
+      <HeroSlider ref="slider" class="hero-slider" />
     </div>
   </div>
 </template>
@@ -17,17 +17,40 @@ export default {
   data: () => ({
     tl: null,
   }),
-  mounted() {},
+  mounted() {
+    this.tl = this.$gsap.timeline()
+
+    this.tl
+      .to('.hero-slider', {
+        duration: 2,
+        opacity: 1,
+        scale: 1,
+        ease: 'power3.out',
+      })
+      .to(this.$refs.heroText, {
+        opacity: 1,
+        y: 0,
+        duration: 1.3,
+        ease: 'power3.out',
+      })
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+.hero {
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
 .hero-text-container {
   left: 0;
   position: absolute;
   top: 50%;
   display: block;
-  height: 80px;
+  height: 50px;
   overflow: hidden;
   text-align: center;
   transform: translateY(-50%);
@@ -39,6 +62,13 @@ export default {
 .hero-text {
   color: #fff;
   font-size: 50px;
+  transform: translateY(80px);
+  opacity: 0;
+}
+
+.hero-slider {
+  transform: scale(1.06);
+  opacity: 0;
 }
 /*
 .loading-screen {
