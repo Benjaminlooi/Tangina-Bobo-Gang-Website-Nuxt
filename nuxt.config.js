@@ -67,6 +67,8 @@ export default {
 
   // https://github.com/ivodolenc/nuxt-gsap-module
   gsap: {
-    /* module options */
+    extraPlugins: {
+      scrollTrigger: true,
+    },
   },
 }
