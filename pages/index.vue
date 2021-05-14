@@ -229,6 +229,14 @@ export default {
     display: block;
     padding-top: 56.25%;
     width: 100%;
+
+    @media only screen and (max-width: 600px) {
+      padding-top: unset;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
   }
 
   &.sabah-trip {
@@ -287,6 +295,11 @@ export default {
       right: 0;
     }
 
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+      position: static;
+    }
+
     .bg-context {
       overflow: hidden;
       position: relative;
@@ -313,6 +326,14 @@ export default {
       padding: 110px;
       position: relative;
       width: 100%;
+
+      @media only screen and (max-width: 768px) {
+        padding: 70px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        padding: 25px;
+      }
 
       .visual-context {
         width: 100%;
