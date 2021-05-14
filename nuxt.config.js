@@ -2,6 +2,12 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // https://medium.com/@jpoechill/access-your-nuxt-js-development-server-on-mobile-a4d67ac88bc6
+  server: {
+    port: 3060, // default: 3000
+    host: '0.0.0.0', // default: localhost
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Tangina-Bobo-Gang-Website-Nuxt',
@@ -29,6 +35,9 @@ export default {
       src: '~plugins/vue-scrollmagic.js',
       ssr: false,
     },
+
+    // https://splidejs.com/integration-vue-splide/
+    '@/plugins/splide.client',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,10 +61,14 @@ export default {
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['@splidejs/vue-splide'],
+  },
 
   // https://github.com/ivodolenc/nuxt-gsap-module
   gsap: {
-    /* module options */
+    extraPlugins: {
+      scrollTrigger: true,
+    },
   },
 }

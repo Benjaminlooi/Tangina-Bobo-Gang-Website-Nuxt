@@ -92,6 +92,9 @@ export default {
       this.$scrollmagic.addScene(scene)
     }
   },
+  unmounted() {
+    if (this.imgLoad) this.imgLoad.off('always')
+  },
   methods: {
     refreshMasonry() {
       if (this.msnry) {

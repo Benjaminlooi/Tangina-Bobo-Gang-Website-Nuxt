@@ -1,114 +1,364 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="hero">
-        <div class="hero-text-wrapper relative">
-          <p class="text-xs uppercase" ref="subtitle">Diary</p>
-          <h1 class="text-4xl font-bold uppercase" ref="title">
-            Tanginabobo Gang
-          </h1>
+  <div id="index" ref="index">
+    <div ref="hero" class="hero">
+      <div ref="heroTextContainer" class="hero-text-container">
+        <h1 ref="heroText" class="hero-text uppercase">Tangina Bobo Gang</h1>
+      </div>
+
+      <HeroSlider class="hero-slider" />
+    </div>
+
+    <div class="section-container sabah-trip">
+      <div class="cell left">
+        <div ref="firstSectionBgContext" class="bg-context">
+          <div class="bg"></div>
         </div>
-        <div class="hero-img-wrapper">
-          <img src="@/assets/img/hero.jpeg" alt ref="image" />
+      </div>
+
+      <div class="cell right">
+        <nuxt-link exact to="/tanginabobo-trip" class="gallery-showcase">
+          <div class="visual-context">
+            <h2 class="visual-text">
+              <p>Sabah trip</p>
+              <button>View gallery</button>
+            </h2>
+            <div class="visual"></div></div
+        ></nuxt-link>
+      </div>
+    </div>
+
+    <div class="section-container photoshoot">
+      <div class="cell left">
+        <nuxt-link exact to="/photoshoot" class="gallery-showcase">
+          <div class="visual-context">
+            <h2 class="visual-text">
+              <p>Photoshoot</p>
+              <button>View gallery</button>
+            </h2>
+            <div class="visual"></div></div
+        ></nuxt-link>
+      </div>
+
+      <div class="cell right">
+        <div ref="secondSectionBgContext" class="bg-context">
+          <div class="bg"></div>
         </div>
       </div>
     </div>
-    <div class="loading-screen" ref="loadingScreen"></div>
+
+    <div class="section-container mpp">
+      <div class="cell left">
+        <div ref="thirdSectionBgContext" class="bg-context">
+          <div class="bg"></div>
+        </div>
+      </div>
+
+      <div class="cell right">
+        <nuxt-link exact to="/rayymondmpp" class="gallery-showcase">
+          <div class="visual-context">
+            <h2 class="visual-text">
+              <p>Jerome MPP</p>
+              <button>View gallery</button>
+            </h2>
+            <div class="visual"></div></div
+        ></nuxt-link>
+      </div>
+    </div>
+
+    <!-- 3 -->
   </div>
 </template>
 
 <script>
+import HeroSlider from '~/components/HeroSlider.vue'
 export default {
+  components: { HeroSlider },
   data: () => ({
-    tl: null,
+    landingTl: null,
+    indexTl: null,
   }),
   mounted() {
-    const loadingScreenRef = this.$refs.loadingScreen
-    const titleRef = this.$refs.title
-    const subtitleRef = this.$refs.subtitle
-    const imageRef = this.$refs.image
+    this.landingTl = this.$gsap.timeline()
 
-    this.tl = this.$gsap.timeline()
-
-    this.tl
-      .from(titleRef, {
-        y: 130,
-        opacity: 0,
-        rotation: -15,
-        duration: 1.5,
-        ease: 'power1.out',
-      })
-      .from(titleRef, {
-        right: 0,
-        xPercent: 50,
-        duration: 1.5,
-        ease: 'power1.inOut',
-      })
-      .from(subtitleRef, { opacity: 0 }, '-=0.8')
-      .to(loadingScreenRef, { height: 0, duration: 1.4 }, '-=1')
-      .set(loadingScreenRef, { display: 'none' })
-      .from(
-        imageRef,
-        { opacity: 0, duration: 1, ease: 'power1.inOut' },
-        '-=0.8'
+    this.landingTl
+      .to(
+        '.hero-slider',
+        {
+          duration: 1,
+          scale: 1,
+          ease: 'power2.out',
+        },
+        '+=0.3'
       )
+      .to(
+        '.hero-slider',
+        {
+          duration: 2,
+          opacity: 1,
+          ease: 'power2.inOut',
+        },
+        '-=1.5'
+      )
+      .to(this.$refs.heroText, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+      })
+      .to(this.$refs.heroTextContainer, {
+        y: '300%',
+        scrollTrigger: {
+          trigger: this.$refs.hero,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.5,
+          markers: false,
+        },
+      })
+
+    this.$ScrollTrigger.defaults({
+      markers: false,
+    })
+
+    this.indexTl = this.$gsap.timeline()
+
+    this.indexTl.fromTo(
+      '.bg',
+      { scale: 1.4 },
+      {
+        scale: 1,
+        ease: 'cubic.out',
+        scrollTrigger: {
+          id: 'bg',
+          trigger: this.$refs.index,
+          start: 'top top',
+          scrub: 3,
+          markers: false,
+        },
+      }
+    )
+
+    this.$ScrollTrigger.create({
+      trigger: this.$refs.firstSectionBgContext,
+      pin: true,
+      scrub: 0,
+      markers: false,
+      pinSpacing: false,
+    })
+
+    this.$ScrollTrigger.create({
+      trigger: this.$refs.secondSectionBgContext,
+      pin: true,
+      scrub: 0,
+      markers: false,
+      pinSpacing: false,
+    })
+
+    this.$ScrollTrigger.create({
+      trigger: this.$refs.thirdSectionBgContext,
+      pin: true,
+      scrub: 0,
+      markers: false,
+      pinSpacing: false,
+    })
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.loading-screen {
-  width: 100%;
-  height: 100%;
-  background-color: rgb(154, 155, 148);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 5;
-}
-.container {
-  width: 100%;
-  height: 95vh;
-  margin: auto;
-  padding: 0 3%;
-  box-sizing: border-box;
+#index {
+  overflow-x: hidden;
 }
 
 .hero {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  letter-spacing: 0.12em;
+  display: block;
   position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-text-container {
+  left: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  height: 50px;
+  overflow: hidden;
+  text-align: center;
+  transform: translateY(-50%);
+  will-change: transform;
+  width: 100%;
+  z-index: 10;
 
   @media only screen and (max-width: 768px) {
-    align-items: flex-end;
+    height: 40px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    height: 25px;
   }
 }
 
-.hero-text-wrapper {
-  width: 50%;
-  z-index: 6;
+.hero-text {
+  color: #fff;
+  font-size: 50px;
+  transform: translateY(80px);
+  opacity: 0;
 
-  @media only screen and (max-width: 640px) {
-    width: 100%;
+  @media only screen and (max-width: 768px) {
+    font-size: 40px;
   }
 
-  h1 {
-    display: inline-block;
+  @media only screen and (max-width: 600px) {
+    font-size: 25px;
   }
 }
 
-.hero-img-wrapper {
-  width: 50%;
-  position: absolute;
-  right: 0;
+.hero-slider {
+  transform: scale(1.06);
+  opacity: 0;
+}
 
-  @media only screen and (max-width: 640px) {
-    position: relative;
+.section-container {
+  display: flex;
+  position: relative;
+  background: #fff;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
     width: 100%;
+  }
+
+  &.sabah-trip {
+    .bg {
+      background-image: url('~/assets/img/gallary-showcase/sabah-trip.jpg');
+    }
+
+    .visual {
+      background-image: url('~/assets/img/gallary-showcase/sabah-trip-2.jpg');
+    }
+  }
+
+  &.photoshoot {
+    right: 0;
+
+    .visual-text {
+      color: #fff !important;
+    }
+
+    .bg {
+      background-image: url('~/assets/img/gallary-showcase/photoshoot.jpg');
+    }
+
+    .visual {
+      background-image: url('~/assets/img/gallary-showcase/photoshoot-2.jpg');
+    }
+  }
+
+  &.mpp {
+    right: 0;
+
+    .visual-text {
+      color: #fff !important;
+    }
+
+    .bg {
+      background-image: url('~/assets/img/gallary-showcase/jerome-mpp.jpg');
+    }
+
+    .visual {
+      background-image: url('~/assets/img/gallary-showcase/jerome-mpp.jpg');
+    }
+  }
+
+  .cell {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+
+    &:first-child {
+      left: 0;
+    }
+
+    &:nth-child(2) {
+      right: 0;
+    }
+
+    .bg-context {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      .bg {
+        left: 0;
+        position: absolute;
+        top: 0;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .gallery-showcase {
+      align-items: flex-end;
+      display: flex;
+      height: 100%;
+      padding: 110px;
+      position: relative;
+      width: 100%;
+
+      .visual-context {
+        width: 100%;
+        position: relative;
+
+        &::before {
+          display: block;
+          content: '';
+          width: 100%;
+          padding-top: 114.2405063291%;
+        }
+
+        .visual-text {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+          width: 100%;
+          color: #000;
+          z-index: 1;
+          text-align: center;
+
+          p {
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+
+          button {
+            margin-top: 30px;
+            text-decoration: underline;
+          }
+        }
+
+        .visual {
+          top: 0;
+          left: 0;
+          position: absolute;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: 50%;
+          display: block;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
   }
 }
 </style>
