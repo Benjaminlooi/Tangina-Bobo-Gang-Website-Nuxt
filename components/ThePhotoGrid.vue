@@ -76,6 +76,8 @@ export default {
         columnWidth: '.grid-col-sizer',
         percentPosition: true,
         stagger: 30,
+        visibleStyle: { transform: 'translateY(0)', opacity: 1 },
+        hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
       })
 
       // initial items reveal
@@ -102,11 +104,16 @@ export default {
       return new Promise((resolve) => {
         imagesLoaded(elem)
           .on('progress', (imgLoad, e) => {
-            this.msnry.reloadItems()
-            this.msnry.layout()
+            this.$nextTick(() => {
+              // DOM updated
+              this.msnry.reloadItems()
+              this.msnry.layout()
+            })
           })
           .on('done', () => {
             this.msnry.once('layoutComplete', () => {
+              this.msnry.reloadItems()
+              this.msnry.layout()
               resolve()
             })
           })
