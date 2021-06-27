@@ -6,26 +6,17 @@
     <button @click="initiateMansory()">Initiate mansory</button>
     <button @click="refreshMasonry()">Refresh mansory</button> -->
     <div id="gallery" ref="gallery" class="grid">
+      <div class="grid-col-sizer"></div>
       <div v-for="(item, index) in items" :key="index" class="grid-item">
-        <img
+        <!-- <img
           v-if="index > 9"
-          data-aos="fade-up"
-          data-aos-delay="500"
-          data-aos-anchor-placement="center-bottom"
-          :src="require('@/assets/img/' + gallery + '/' + item)"
+          :src="`/images/${gallery}/${item}`"
           class="image"
-        />
-        <img
-          v-else
-          data-aos="fade-up"
-          data-aos-offset="50"
-          :src="require('@/assets/img/' + gallery + '/' + item)"
-          class="image"
-        />
+        /> -->
+        <nuxt-img :src="`/images/${gallery}/${item}`" class="image" />
       </div>
     </div>
-
-    <div v-if="imageLoadCount < totalItems" ref="loader">Loading...</div>
+    <InfiniteScroll v-if="!isLoading" :enough="enough" @load-more="getData()" />
   </div>
 </template>
 
@@ -39,9 +30,13 @@ export default {
     gallery: String,
   },
   data: () => ({
+    grid: null,
     msnry: null,
-    imgLoad: null,
     imageLoadCount: 9,
+
+    isLoading: false,
+    enough: false,
+    page: 1,
   }),
   computed: {
     items() {
@@ -75,68 +70,48 @@ export default {
       AOS = require('aos')
       imagesLoaded = require('imagesloaded')
 
-      this.initiateMansory()
+      this.grid = document.querySelector('.grid')
 
-      const loaderRef = this.$refs.loader
+      this.msnry = new Masonry(this.grid, {
+        itemSelector: 'none', // select none at first
+        columnWidth: '.grid-col-sizer',
+        percentPosition: true,
+        stagger: 30,
+      })
 
-      const scene = this.$scrollmagic
-        .scene({
-          triggerElement: loaderRef,
-          triggerHook: 'onEnter',
-          offset: -30,
-        })
-        .on('enter', (e) => {
-          this.loadImage()
-        })
-
-      this.$scrollmagic.addScene(scene)
+      // initial items reveal
+      imagesLoaded(this.grid, () => {
+        this.msnry.options.itemSelector = '.grid-item'
+        const items = this.grid.querySelectorAll('.grid-item')
+        this.msnry.appended(items)
+      })
     }
   },
-  unmounted() {
-    if (this.imgLoad) this.imgLoad.off('always')
-  },
+  unmounted() {},
   methods: {
-    refreshMasonry() {
-      if (this.msnry) {
-        console.log('resetting Mansory...')
-        this.msnry.reloadItems()
-        this.msnry.layout()
-      }
-    },
-    loadImage() {
-      console.log('Loading images...')
-      this.imageLoadCount += 6
-      setTimeout(() => {
-        this.imgLoad.off('always')
-        this.checkImagesLoaded()
-        AOS.refresh()
-      }, 0)
-    },
-    initiateMansory() {
-      const galleryRef = this.$refs.gallery
+    async getData() {
+      this.isLoading = true
+      this.imageLoadCount += 3
 
-      this.msnry = new Masonry(galleryRef, {
-        itemSelector: '.grid-item',
+      // Stop scroll-loader
+      this.imageLoadCount >= this.totalItems && (this.enough = true)
+
+      await this.imagesLoadedAndLayout(this.grid)
+      this.isLoading = false
+    },
+    imagesLoadedAndLayout(elem) {
+      return new Promise((resolve) => {
+        imagesLoaded(elem)
+          .on('progress', (imgLoad, e) => {
+            this.msnry.reloadItems()
+            this.msnry.layout()
+          })
+          .on('done', () => {
+            this.msnry.once('layoutComplete', () => {
+              resolve()
+            })
+          })
       })
-
-      this.checkImagesLoaded()
-    },
-    checkImagesLoaded() {
-      const galleryRef = this.$refs.gallery
-
-      this.imgLoad = imagesLoaded(galleryRef)
-
-      this.imgLoad.on('always', () => {
-        console.log('done')
-        this.refreshMasonry()
-        AOS.refresh()
-      })
-
-      // this.imgLoad.on('update', (instance, image) => {
-      //   console.log('loaded')
-      //   this.refreshMasonry()
-      //   AOS.refresh()
-      // })
     },
   },
 }
@@ -156,7 +131,7 @@ export default {
 }
 
 .image {
-  opacity: 0;
+  /* opacity: 0; */
 }
 
 p {
@@ -173,6 +148,7 @@ p {
   min-height: 100vh;
 }
 
+.grid-col-sizer,
 .grid-item {
   max-width: 33%;
   width: 33%;

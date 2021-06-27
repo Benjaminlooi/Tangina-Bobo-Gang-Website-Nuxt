@@ -55,6 +55,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -64,6 +66,9 @@ export default {
 
     // https://github.com/ivodolenc/nuxt-gsap-module
     'nuxt-gsap-module',
+
+    // https://www.npmjs.com/package/@forked-prs/nuxt-infinite-scroll-module
+    '@forked-prs/nuxt-infinite-scroll-module',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
