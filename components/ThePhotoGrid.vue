@@ -22,7 +22,7 @@
 
 <script>
 import { tgnbbtripMin, rayymondmpp, gangphotoshoot } from '@/misc/galleryLinks'
-let Masonry, AOS, imagesLoaded
+let Masonry, imagesLoaded
 
 export default {
   name: 'ThePhotoGrid',
@@ -67,7 +67,6 @@ export default {
   mounted() {
     if (process.browser) {
       Masonry = require('masonry-layout')
-      AOS = require('aos')
       imagesLoaded = require('imagesloaded')
 
       this.grid = document.querySelector('.grid')
@@ -176,6 +175,7 @@ p {
     font-size: 12px;
     margin-bottom: 24px;
   }
+  .grid-col-sizer,
   .grid-item {
     max-width: 50%;
     width: 50%;
