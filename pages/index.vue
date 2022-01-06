@@ -166,10 +166,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#index {
-  overflow-x: hidden;
-}
-
 .hero {
   display: block;
   position: relative;

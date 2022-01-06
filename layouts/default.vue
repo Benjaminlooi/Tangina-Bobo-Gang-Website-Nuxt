@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="default-layout">
     <AppBar />
     <Nuxt />
   </div>
@@ -12,4 +12,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+#default-layout{
+  overflow: hidden;
+}
+</style>
