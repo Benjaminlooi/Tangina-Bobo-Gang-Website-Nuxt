@@ -36,12 +36,6 @@ export default {
     // https://yasminzy.com/nuxt/aos/#steps
     '@/plugins/aos.client',
 
-    // https://github.com/magr0s/vue-scrollmagic
-    {
-      src: '~plugins/vue-scrollmagic.js',
-      ssr: false,
-    },
-
     // https://splidejs.com/integration-vue-splide/
     '@/plugins/splide.client',
   ],
