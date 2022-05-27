@@ -36,12 +36,6 @@ export default {
     // https://yasminzy.com/nuxt/aos/#steps
     '@/plugins/aos.client',
 
-    // https://github.com/magr0s/vue-scrollmagic
-    {
-      src: '~plugins/vue-scrollmagic.js',
-      ssr: false,
-    },
-
     // https://splidejs.com/integration-vue-splide/
     '@/plugins/splide.client',
   ],
@@ -51,6 +45,9 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    // https://github.com/ivodolenc/nuxt-gsap-module
+    'nuxt-gsap-module',
+
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
@@ -63,9 +60,6 @@ export default {
   modules: [
     // https://www.npmjs.com/package/nuxt-lazy-load/v/latest
     // 'nuxt-lazy-load',
-
-    // https://github.com/ivodolenc/nuxt-gsap-module
-    'nuxt-gsap-module',
 
     // https://www.npmjs.com/package/@forked-prs/nuxt-infinite-scroll-module
     '@forked-prs/nuxt-infinite-scroll-module',
