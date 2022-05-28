@@ -16,7 +16,9 @@
         <nuxt-img :src="`/images/${gallery}/${item}`" class="image" />
       </div>
     </div>
-    <InfiniteScroll v-if="!isLoading" :enough="enough" @load-more="getData()" />
+    <InfiniteScroll :enough="enough" @load-more="getData()"
+      ><TheSpinner />
+    </InfiniteScroll>
   </div>
 </template>
 
@@ -36,7 +38,6 @@ export default {
 
     isLoading: false,
     enough: false,
-    page: 1,
   }),
   computed: {
     items() {
@@ -51,7 +52,7 @@ export default {
           return null
       }
     },
-    totalItems() {
+    totalItemsCount() {
       switch (this.gallery) {
         case 'tgnbbtrip':
           return tgnbbtripMin.length
@@ -65,57 +66,66 @@ export default {
     },
   },
   mounted() {
-    if (process.browser) {
-      Masonry = require('masonry-layout')
-      imagesLoaded = require('imagesloaded')
+    Masonry = require('masonry-layout')
+    imagesLoaded = require('imagesloaded')
 
-      this.grid = document.querySelector('.grid')
+    this.grid = document.querySelector('.grid')
 
-      this.msnry = new Masonry(this.grid, {
-        itemSelector: 'none', // select none at first
-        columnWidth: '.grid-col-sizer',
-        percentPosition: true,
-        stagger: 30,
-        visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-        hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
-      })
+    this.msnry = new Masonry(this.grid, {
+      itemSelector: 'none', // select none at first
+      columnWidth: '.grid-col-sizer',
+      percentPosition: true,
+      stagger: 0,
+      visibleStyle: { transform: 'translateY(0)', opacity: 1 },
+      hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
+    })
 
-      // initial items reveal
-      imagesLoaded(this.grid, () => {
-        this.msnry.options.itemSelector = '.grid-item'
-        const items = this.grid.querySelectorAll('.grid-item')
-        this.msnry.appended(items)
-      })
-    }
+    // initial items reveal
+    imagesLoaded(this.grid, () => {
+      this.msnry.options.itemSelector = '.grid-item'
+      const items = this.grid.querySelectorAll('.grid-item')
+      this.msnry.appended(items)
+    })
   },
   unmounted() {},
   methods: {
     async getData() {
-      this.isLoading = true
-      this.imageLoadCount += 3
+      if (!this.isLoading) {
+        const totalItemsCount = this.totalItemsCount
+        const itemsCount = this.imageLoadCount
 
-      // Stop scroll-loader
-      this.imageLoadCount >= this.totalItems && (this.enough = true)
+        if (totalItemsCount > itemsCount) {
+          this.isLoading = true
 
-      await this.imagesLoadedAndLayout(this.grid)
-      this.isLoading = false
+          const availableItemsCount = totalItemsCount - itemsCount
+          if (availableItemsCount > 3) {
+            this.imageLoadCount += 3
+          } else {
+            this.imageLoadCount += availableItemsCount
+          }
+
+          await this.imagesLoadedAndLayout(this.grid)
+          this.isLoading = false
+        } else {
+          // Stop scroll-loader
+          this.enough = true
+        }
+      }
     },
     imagesLoadedAndLayout(elem) {
       return new Promise((resolve) => {
         imagesLoaded(elem)
-          .on('progress', (imgLoad, e) => {
-            this.$nextTick(() => {
-              // DOM updated
-              this.msnry.reloadItems()
-              this.msnry.layout()
-            })
-          })
+          // .on('progress', (imgLoad, e) => {
+          //   this.$nextTick(() => {
+          //     // DOM updated
+          //     this.msnry.reloadItems()
+          //     this.msnry.layout()
+          //   })
+          // })
           .on('done', () => {
-            this.msnry.once('layoutComplete', () => {
-              this.msnry.reloadItems()
-              this.msnry.layout()
-              resolve()
-            })
+            this.msnry.reloadItems()
+            this.msnry.layout()
+            resolve()
           })
       })
     },
