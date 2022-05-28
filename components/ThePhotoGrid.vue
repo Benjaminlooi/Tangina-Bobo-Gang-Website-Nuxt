@@ -5,18 +5,17 @@
     <!-- <button @click="loadImage()">Load image</button>
     <button @click="initiateMansory()">Initiate mansory</button>
     <button @click="refreshMasonry()">Refresh mansory</button> -->
-    <div id="gallery" ref="gallery" class="grid">
-      <div class="grid-col-sizer"></div>
-      <div v-for="(item, index) in items" :key="index" class="grid-item">
-        <!-- <img
-          v-if="index > 9"
-          :src="`/images/${gallery}/${item}`"
-          class="image"
-        /> -->
+    <div id="gallery" ref="gallery" class="masonry-grid">
+      <div class="masonry-grid-col-sizer"></div>
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        class="masonry-grid-item"
+      >
         <nuxt-img :src="`/images/${gallery}/${item}`" class="image" />
       </div>
     </div>
-    <InfiniteScroll :enough="enough" @load-more="getData()"
+    <InfiniteScroll :enough="enough" class="h-[8rem]" @load-more="getData()"
       ><TheSpinner />
     </InfiniteScroll>
   </div>
@@ -69,11 +68,11 @@ export default {
     Masonry = require('masonry-layout')
     imagesLoaded = require('imagesloaded')
 
-    this.grid = document.querySelector('.grid')
+    this.grid = document.querySelector('.masonry-grid')
 
     this.msnry = new Masonry(this.grid, {
       itemSelector: 'none', // select none at first
-      columnWidth: '.grid-col-sizer',
+      columnWidth: '.masonry-grid-col-sizer',
       percentPosition: true,
       stagger: 0,
       visibleStyle: { transform: 'translateY(0)', opacity: 1 },
@@ -82,8 +81,8 @@ export default {
 
     // initial items reveal
     imagesLoaded(this.grid, () => {
-      this.msnry.options.itemSelector = '.grid-item'
-      const items = this.grid.querySelectorAll('.grid-item')
+      this.msnry.options.itemSelector = '.masonry-grid-item'
+      const items = this.grid.querySelectorAll('.masonry-grid-item')
       this.msnry.appended(items)
     })
   },
@@ -134,10 +133,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* .grid#gallery {
-  display: none;
-} */
-
 #loader {
   height: 1px;
 
@@ -160,12 +155,12 @@ p {
   position: relative;
 }
 
-.grid {
+.masonry-grid {
   min-height: 100vh;
 }
 
-.grid-col-sizer,
-.grid-item {
+.masonry-grid-col-sizer,
+.masonry-grid-item {
   max-width: 33%;
   width: 33%;
   padding: 0 10px 20px;
@@ -192,8 +187,8 @@ p {
     font-size: 12px;
     margin-bottom: 24px;
   }
-  .grid-col-sizer,
-  .grid-item {
+  .masonry-grid-col-sizer,
+  .masonry-grid-item {
     max-width: 50%;
     width: 50%;
     padding: 0 5px 10px;

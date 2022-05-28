@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="flex justify-center items-center h-full w-full">
     <svg
-      class="w-8 h-8 mr-3 border-0 animate-spin"
+      class="w-8 h-8 absolute border-0 animate-spin"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
