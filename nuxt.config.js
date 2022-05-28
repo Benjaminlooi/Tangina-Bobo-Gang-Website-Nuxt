@@ -55,6 +55,8 @@ export default {
     'nuxt-windicss',
 
     '@nuxt/image',
+
+    '@nuxt/typescript-build',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
