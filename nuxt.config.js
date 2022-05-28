@@ -26,6 +26,11 @@ export default {
         href: 'https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap',
       },
     ],
+    script: [
+      {
+        src: 'js/darkmode.js',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
