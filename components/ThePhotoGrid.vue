@@ -74,9 +74,9 @@ export default {
       itemSelector: 'none', // select none at first
       columnWidth: '.masonry-grid-col-sizer',
       percentPosition: true,
-      stagger: 0,
-      visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-      hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
+      // stagger: 0,
+      // visibleStyle: { transform: 'translateY(0)', opacity: 1 },
+      // hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
     })
 
     // initial items reveal
