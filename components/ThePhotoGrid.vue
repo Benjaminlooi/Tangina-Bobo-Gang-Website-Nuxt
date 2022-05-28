@@ -90,12 +90,12 @@ export default {
   methods: {
     async getData() {
       if (!this.isLoading) {
+        this.isLoading = true
+
         const totalItemsCount = this.totalItemsCount
         const itemsCount = this.imageLoadCount
 
         if (totalItemsCount > itemsCount) {
-          this.isLoading = true
-
           const availableItemsCount = totalItemsCount - itemsCount
           if (availableItemsCount > 3) {
             this.imageLoadCount += 3
@@ -104,11 +104,12 @@ export default {
           }
 
           await this.imagesLoadedAndLayout(this.grid)
-          this.isLoading = false
         } else {
           // Stop scroll-loader
           this.enough = true
         }
+
+        this.isLoading = false
       }
     },
     imagesLoadedAndLayout(elem) {
