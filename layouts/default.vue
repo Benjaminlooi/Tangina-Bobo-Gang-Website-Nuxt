@@ -13,7 +13,7 @@ export default {
 </script>
 
 <style scoped>
-#default-layout{
+#default-layout {
   overflow: hidden;
 }
 </style>
