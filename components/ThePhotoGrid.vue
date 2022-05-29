@@ -12,7 +12,7 @@
         :key="index"
         class="masonry-grid-item"
       >
-        <nuxt-img :src="`/images/${gallery}/${item}`" class="image" />
+        <nuxt-img :src="`/images/${gallery}/${item}`" />
       </div>
     </div>
     <InfiniteScroll :enough="enough" class="h-[8rem]" @load-more="getData()"
@@ -21,25 +21,29 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { tgnbbtripMin, rayymondmpp, gangphotoshoot } from '@/misc/galleryLinks'
-let Masonry, imagesLoaded
+let Masonry: any, imagesLoaded: any
 
-export default {
+export default Vue.extend({
   name: 'ThePhotoGrid',
   props: {
-    gallery: String,
+    gallery: {
+      type: String,
+      default: '',
+    },
   },
   data: () => ({
-    grid: null,
-    msnry: null,
+    grid: null as Element | null,
+    msnry: null as any,
     imageLoadCount: 9,
 
     isLoading: false,
     enough: false,
   }),
   computed: {
-    items() {
+    items(): string[] {
       switch (this.gallery) {
         case 'tgnbbtrip':
           return tgnbbtripMin.slice(0, this.imageLoadCount)
@@ -48,10 +52,10 @@ export default {
         case 'gangphotoshoot':
           return gangphotoshoot.slice(0, this.imageLoadCount)
         default:
-          return null
+          return []
       }
     },
-    totalItemsCount() {
+    totalItemsCount(): number {
       switch (this.gallery) {
         case 'tgnbbtrip':
           return tgnbbtripMin.length
@@ -60,7 +64,7 @@ export default {
         case 'gangphotoshoot':
           return gangphotoshoot.length
         default:
-          return null
+          return 0
       }
     },
   },
@@ -81,29 +85,32 @@ export default {
 
     // initial items reveal
     imagesLoaded(this.grid, () => {
-      this.msnry.options.itemSelector = '.masonry-grid-item'
-      const items = this.grid.querySelectorAll('.masonry-grid-item')
-      this.msnry.appended(items)
+      if (this.grid) {
+        this.msnry.options.itemSelector = '.masonry-grid-item'
+        const items = this.grid.querySelectorAll('.masonry-grid-item')
+        this.msnry.appended(items)
+      }
     })
   },
-  unmounted() {},
   methods: {
     async getData() {
       if (!this.isLoading) {
-        this.isLoading = true
+        if (this.grid) {
+          this.isLoading = true
 
-        const totalItemsCount = this.totalItemsCount
-        const itemsCount = this.imageLoadCount
+          const totalItemsCount = this.totalItemsCount
+          const itemsCount = this.imageLoadCount
 
-        if (totalItemsCount > itemsCount) {
-          const availableItemsCount = totalItemsCount - itemsCount
-          if (availableItemsCount > 3) {
-            this.imageLoadCount += 3
-          } else {
-            this.imageLoadCount += availableItemsCount
+          if (totalItemsCount > itemsCount) {
+            const availableItemsCount = totalItemsCount - itemsCount
+            if (availableItemsCount > 3) {
+              this.imageLoadCount += 3
+            } else {
+              this.imageLoadCount += availableItemsCount
+            }
+
+            await this.imagesLoadedAndLayout(this.grid)
           }
-
-          await this.imagesLoadedAndLayout(this.grid)
         } else {
           // Stop scroll-loader
           this.enough = true
@@ -112,8 +119,8 @@ export default {
         this.isLoading = false
       }
     },
-    imagesLoadedAndLayout(elem) {
-      return new Promise((resolve) => {
+    imagesLoadedAndLayout(elem: Element) {
+      return new Promise<void>((resolve) => {
         imagesLoaded(elem)
           // .on('progress', (imgLoad, e) => {
           //   this.$nextTick(() => {
@@ -130,22 +137,10 @@ export default {
       })
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>
-#loader {
-  height: 1px;
-
-  & .active {
-    height: 30px;
-  }
-}
-
-.image {
-  /* opacity: 0; */
-}
-
 p {
   font-size: 16px;
   letter-spacing: 0.1em;
@@ -157,29 +152,12 @@ p {
 }
 
 .masonry-grid {
-  min-height: 100vh;
-}
+  /* min-height: 100vh; */
 
-.masonry-grid-col-sizer,
-.masonry-grid-item {
-  max-width: 33%;
-  width: 33%;
-  padding: 0 10px 20px;
-  box-sizing: border-box;
-
-  div:hover {
-    opacity: 0.7;
-  }
-
-  div {
-    cursor: pointer;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    width: 100%;
-    display: block;
+  .masonry-grid-col-sizer,
+  .masonry-grid-item {
+    width: calc((100% / 3) - 20px);
+    margin: 0 10px 20px;
   }
 }
 
@@ -188,11 +166,13 @@ p {
     font-size: 12px;
     margin-bottom: 24px;
   }
-  .masonry-grid-col-sizer,
-  .masonry-grid-item {
-    max-width: 50%;
-    width: 50%;
-    padding: 0 5px 10px;
+
+  .masonry-grid {
+    .masonry-grid-col-sizer,
+    .masonry-grid-item {
+      width: calc((100% / 2) - 10px);
+      margin: 0 5px 10px;
+    }
   }
 }
 </style>
