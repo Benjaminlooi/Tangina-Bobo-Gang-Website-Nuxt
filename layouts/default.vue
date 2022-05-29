@@ -1,14 +1,14 @@
 <template>
   <div id="default-layout">
-    <AppBar />
     <Nuxt />
+    <TheNavbar />
   </div>
 </template>
 
 <script>
-import AppBar from '~/components/AppBar.vue'
+import TheNavbar from '~/components/TheNavbar.vue'
 export default {
-  components: { AppBar },
+  components: { TheNavbar },
 }
 </script>
 
