@@ -89,6 +89,7 @@ export default Vue.extend({
         this.msnry.options.itemSelector = '.masonry-grid-item'
         const items = this.grid.querySelectorAll('.masonry-grid-item')
         this.msnry.appended(items)
+        this.msnry.layout()
       }
     })
   },
