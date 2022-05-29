@@ -170,8 +170,8 @@ p {
 
   .masonry-grid-col-sizer,
   .masonry-grid-item {
-    width: calc((100% / 3));
-    padding: 0 3px 6px;
+    width: calc((100% / 3) - 6px);
+    margin: 0 3px 6px;
   }
 }
 
@@ -184,7 +184,7 @@ p {
   .masonry-grid {
     .masonry-grid-col-sizer,
     .masonry-grid-item {
-      width: calc((100% / 2));
+      width: calc((100% / 2) - 6px);
     }
   }
 }
