@@ -1,9 +1,5 @@
 <template>
-  <div class="tgnbbtrip">
-    <div class="mainContainer">
-      <ThePhotoGrid gallery="tgnbbtrip" />
-    </div>
-  </div>
+  <ThePhotoGrid gallery="tgnbbtrip" />
 </template>
 
 <script>
@@ -16,19 +12,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.mainContainer {
-  padding-top: 210px;
-  padding-left: 50px;
-  padding-right: 50px;
-  box-sizing: border-box;
-  width: 100%;
-}
-@media (max-width: 768px) {
-  .mainContainer {
-    padding-top: 85px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

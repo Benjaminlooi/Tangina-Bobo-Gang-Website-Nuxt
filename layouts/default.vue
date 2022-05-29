@@ -1,5 +1,9 @@
 <template>
-  <div id="default-layout">
+  <div
+    id="default-layout"
+    class="min-h-[100vh] dark:(bg-black text-white) transition-colors"
+  >
+    <ColorModeToggler />
     <Nuxt />
     <TheNavbar />
   </div>

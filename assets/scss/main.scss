@@ -6,3 +6,7 @@
 .page-leave-to {
   opacity: 0;
 }
+
+.dark #the-nav-bar .nuxt-link-exact-active::before {
+  background-color: rgb(31, 41, 55);
+}

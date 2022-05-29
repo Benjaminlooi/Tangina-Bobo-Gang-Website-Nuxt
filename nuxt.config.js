@@ -28,7 +28,11 @@ export default {
     ],
     script: [
       {
-        src: 'js/darkmode.js',
+        src: 'scripts/darkmode.js',
+      },
+      {
+        src: 'https://kit.fontawesome.com/c3b8312bf5.js',
+        crossorigin: 'anonymous',
       },
     ],
   },

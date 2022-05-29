@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainContainer">
     <p class>{{ gallery }}</p>
     <!-- <button @click="console.log('test')">Test</button> -->
     <!-- <button @click="loadImage()">Load image</button>
@@ -142,6 +142,19 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.mainContainer {
+  padding-top: 210px;
+  padding-left: 3px;
+  padding-right: 3px;
+  box-sizing: border-box;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .mainContainer {
+    padding-top: 85px;
+  }
+}
+
 p {
   font-size: 16px;
   letter-spacing: 0.1em;
@@ -157,8 +170,8 @@ p {
 
   .masonry-grid-col-sizer,
   .masonry-grid-item {
-    width: calc((100% / 3) - 20px);
-    margin: 0 10px 20px;
+    width: calc((100% / 3));
+    padding: 0 3px 6px;
   }
 }
 
@@ -171,8 +184,7 @@ p {
   .masonry-grid {
     .masonry-grid-col-sizer,
     .masonry-grid-item {
-      width: calc((100% / 2) - 10px);
-      margin: 0 5px 10px;
+      width: calc((100% / 2));
     }
   }
 }
