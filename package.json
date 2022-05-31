@@ -17,7 +17,7 @@
     "nuxt-lazy-load": "^1.2.9"
   },
   "devDependencies": {
-    "@nuxt/image": "^0.5.0",
+    "@nuxt/image": "0.6.0",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config": "^10.0.0",
